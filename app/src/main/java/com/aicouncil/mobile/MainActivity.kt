@@ -121,7 +121,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun CouncilCard(number: String, title: String, subtitle: String, content: @Composable ColumnScope.() -> Unit) {
     Card(Modifier.fillMaxWidth().padding(vertical = 8.dp), colors = CardDefaults.cardColors(containerColor = Panel)) {
-        Column(Modifier.padding(14.dp), content = content) {
+        Column(Modifier.padding(14.dp)) {
             Text("$number  $title", fontSize = 17.sp, fontWeight = FontWeight.Bold)
             Text(subtitle, color = Muted, fontSize = 12.sp)
             Spacer(Modifier.height(10.dp))
