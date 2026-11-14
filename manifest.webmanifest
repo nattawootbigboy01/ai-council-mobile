@@ -1,0 +1,9 @@
+{
+  "name": "AI COUNCIL",
+  "short_name": "AI COUNCIL",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#101827",
+  "description": "GPT เสนอ Gemini ตรวจสอบ แล้ว GPT สรุป"
+}
