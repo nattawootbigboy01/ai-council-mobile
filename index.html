@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827"><link rel="manifest" href="./manifest.webmanifest">
+<title>AI COUNCIL</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#142238;--line:#2a3c56;--text:#edf4ff;--muted:#a9bad0;--blue:#5da2ff;--green:#43d6a0}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#0b1220,#14233b);color:var(--text);font:16px system-ui,-apple-system,sans-serif}
+main{max-width:760px;margin:auto;padding:22px 15px 48px}.head{display:flex;align-items:center;gap:12px;margin-bottom:20px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#438bff,#6d65ff);display:grid;place-items:center;font-weight:900}.head h1{font-size:23px;margin:0}.muted,.note{color:var(--muted);font-size:13px;line-height:1.55}
+.card{background:#142238;border:1px solid var(--line);border-radius:17px;padding:16px;margin:14px 0}.tag{font-size:11px;letter-spacing:.08em;color:#8dbbff;font-weight:800}h2{font-size:18px;margin:6px 0 8px}
+textarea{width:100%;min-height:115px;background:#0b1525;border:1px solid #354b69;border-radius:12px;padding:12px;color:var(--text);font:inherit;line-height:1.5;resize:vertical}
+button,a.btn{display:inline-block;border:0;border-radius:11px;padding:11px 14px;margin:6px 5px 0 0;background:var(--blue);color:#061326;text-decoration:none;font-weight:800;font-size:14px;cursor:pointer}
+button.secondary,a.secondary{background:#2a3c56;color:var(--text)}button.green{background:var(--green)}.row{display:flex;flex-wrap:wrap;gap:5px}.status{color:var(--green);font-size:13px;min-height:20px;margin-top:8px}
+</style></head><body><main>
+<header class="head"><div class="logo">AC</div><div><h1>AI COUNCIL</h1><div class="muted">GPT เสนอ → Gemini ตรวจสอบ → GPT สรุป</div></div></header>
+<section class="card"><div class="tag">01 · START</div><h2>โจทย์ประชุม</h2><textarea id="question" placeholder="พิมพ์โจทย์หรือปัญหาที่ต้องการให้ AI ช่วยกันคิด..."></textarea><button class="secondary" id="save">บันทึกข้อมูล</button></section>
+<section class="card"><div class="tag">02 · GPT PROPOSAL</div><h2>GPT เสนอแนวทาง</h2><p class="note">คัดลอกคำสั่ง เปิด ChatGPT แล้ววางคำสั่ง เมื่อได้คำตอบให้นำกลับมาวางด้านล่าง</p><div class="row"><button data-prompt="gpt">คัดลอกคำสั่ง GPT</button><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">เปิด ChatGPT ↗</a></div><textarea id="proposal" placeholder="วางคำตอบจาก GPT ที่นี่..."></textarea></section>
+<section class="card"><div class="tag">03 · GEMINI REVIEW</div><h2>Gemini ตรวจสอบ</h2><p class="note">ให้ Gemini ตรวจข้อเสนออย่างอิสระ หาจุดผิดพลาด ความเสี่ยง และทางเลือกอื่น</p><div class="row"><button data-prompt="gemini">คัดลอกคำสั่ง Gemini</button><a class="btn secondary" href="https://gemini.google.com/" target="_blank" rel="noopener">เปิด Gemini ↗</a></div><textarea id="review" placeholder="วางคำตอบจาก Gemini ที่นี่..."></textarea></section>
+<section class="card"><div class="tag">04 · FINAL DECISION</div><h2>GPT สรุปผลประชุม</h2><p class="note">นำผลตรวจของ Gemini กลับมาให้ GPT พิจารณาและสรุป</p><div class="row"><button class="green" data-prompt="final">คัดลอกคำสั่งสรุป</button><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">เปิด ChatGPT ↗</a></div><textarea id="final" placeholder="วางข้อสรุปสุดท้ายจาก GPT..."></textarea><div class="row"><button class="secondary" id="export">ดาวน์โหลดรายงาน TXT</button></div><div class="status" id="status"></div></section>
+<p class="note">รุ่นนี้เป็นระบบกึ่งอัตโนมัติ ไม่ใช้ API และไม่เชื่อมบัญชีโดยตรง ต้องคัดลอก/วางระหว่าง ChatGPT และ Gemini เอง ข้อมูลบันทึกในเบราว์เซอร์ของอุปกรณ์นี้</p>
+</main><script>
+const ids=['question','proposal','review','final'];const $=id=>document.getElementById(id);const v=id=>$(id).value.trim();
+const make=kind=>{const q=v('question')||'[ใส่โจทย์]';if(kind==='gpt')return 'คุณคือ GPT ใน AI COUNCIL วิเคราะห์โจทย์อย่างเป็นระบบ แยกข้อเท็จจริง สมมติฐาน ความเสี่ยง และเสนอแนวทางปฏิบัติ ห้ามแต่งข้อมูล\\n\\nโจทย์:\\n'+q;
+if(kind==='gemini')return 'คุณคือ Gemini ผู้ตรวจสอบอิสระ โปรดตรวจข้อเสนอ GPT อย่างเข้มงวด ระบุข้อผิดพลาด ข้อมูลที่ขาด สมมติฐาน ความเสี่ยง และทางเลือกที่ดีกว่า\\n\\nโจทย์:\\n'+q+'\\n\\nข้อเสนอจาก GPT:\\n'+v('proposal');
+return 'คุณคือ GPT ผู้สรุปการประชุม AI COUNCIL พิจารณาโจทย์ ข้อเสนอ GPT และคำวิจารณ์ Gemini แยกประเด็นที่เห็นตรง/ต่าง แล้วสรุปแนวทางที่มีเหตุผล ขั้นตอนปฏิบัติ และข้อจำกัด ห้ามกล่าวอ้างว่าได้ตรวจสอบภายนอกหากไม่ได้ทำ\\n\\nโจทย์:\\n'+q+'\\n\\nข้อเสนอ GPT:\\n'+v('proposal')+'\\n\\nคำตรวจสอบ Gemini:\\n'+v('review')};
+function save(){localStorage.setItem('ac-data',JSON.stringify(Object.fromEntries(ids.map(i=>[i,v(i)]))));$('status').textContent='บันทึกข้อมูลในอุปกรณ์แล้ว'}
+try{const d=JSON.parse(localStorage.getItem('ac-data')||'{}');ids.forEach(i=>{if(d[i])$(i).value=d[i]})}catch(e){}
+document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=async()=>{const t=make(b.dataset.prompt);try{await navigator.clipboard.writeText(t)}catch(e){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();document.execCommand('copy');x.remove()}$('status').textContent='คัดลอกคำสั่งแล้ว เปิด AI แล้ววางได้เลย';save()});
+$('save').onclick=save;ids.forEach(i=>$(i).addEventListener('input',save));
+$('export').onclick=()=>{const s=ids.map((i,n)=>['โจทย์','ข้อเสนอ GPT','คำตรวจสอบ Gemini','ข้อสรุปสุดท้าย'][n]+'\n'+v(i)).join('\n\n----------------\n\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([s],{type:'text/plain;charset=utf-8'}));a.download='ai-council-report.txt';a.click();URL.revokeObjectURL(a.href)};
+if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
